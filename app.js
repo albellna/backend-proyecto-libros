@@ -20,7 +20,7 @@ app.get("/libro/:id", async(req, res) => {
 });
 
 app.get("/buscarlibro/:arg", async(req, res) => {
-  const resultado = await Libro.find({name: new RegExp(req.params.arg, 'i')});
+  const resultado = await Libro.find({title: new RegExp(req.params.arg, 'i')});
   res.send(resultado);
 });
 
@@ -35,9 +35,9 @@ app.delete("/borrarlibro/:id", async(req, res) => {
 
 app.post("/crearlibro", async(req, res) => {
   try{
-    const {name} = req.body;
+    const {title} = req.body;
     const miLibro = new Libro(req.body);
-    const libroExiste = await Libro.findOne({name});
+    const libroExiste = await Libro.findOne({title});
     if(libroExiste){
       return res.status(400).json({
         ok: false,
