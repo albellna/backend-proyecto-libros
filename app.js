@@ -10,18 +10,30 @@ require("dotenv/config");
   app.use(express.json());
 
 app.get("/libros", async(req, res) => {
-  const resultado = await Libro.find();
-  res.send(resultado);
+  try {
+    const resultado = await Libro.find();
+    res.send(resultado);
+  } catch (err) {
+    res.send({message: err});
+  }
 });
 
 app.get("/libro/:id", async(req, res) => {
-  const resultado = await Libro.findOne({_id: req.params.id});
-  res.send(resultado);
+  try {
+    const resultado = await Libro.findOne({_id: req.params.id});
+    res.send(resultado);
+  } catch (err) {
+    res.send({message: err});
+  }
 });
 
 app.get("/buscarlibro/:arg", async(req, res) => {
-  const resultado = await Libro.find({title: new RegExp(req.params.arg, 'i')});
-  res.send(resultado);
+  try {
+    const resultado = await Libro.find({title: new RegExp(req.params.arg, 'i')});
+    res.send(resultado);
+  } catch (err) {
+    res.send({message: err});
+  }
 });
 
 app.delete("/borrarlibro/:id", async(req, res) => {
@@ -73,13 +85,13 @@ app.post("/actualizarlibro/:id", async(req, res) => {
   }
 });
 
-const client = mongoose.connect(process.env.DB_CONNECTION_STRING,
+mongoose.connect(process.env.DB_CONNECTION_STRING,
 { 
   useUnifiedTopology: true,
   useNewUrlParser: true 
 },
 (req, res) => {
-  console.log("API de libros para prueba técnica de DinamizaTIC");
+  console.log("API de libros para prueba técnica de DynamizaTIC");
 });
 
 app.listen(3000, () =>{
